@@ -64,6 +64,9 @@
 	 * ep0_data_stage_callback() being called when NULL. The code does
 	 * check for NULL, and is safe. */
 	#pragma warning disable 1471
+
+    /* warning: (373) implicit signed to unsigned conversion */
+    //#pragma warning disable 373
 #endif
 
 #define MIN(x,y) (((x)<(y))?(x):(y))
