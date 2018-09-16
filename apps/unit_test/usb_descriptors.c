@@ -216,9 +216,9 @@ int16_t usb_application_get_string(uint8_t string_number, const void **ptr)
 
 /* Configuration Descriptor List
  *
- * This is the list of pointters to the device's configuration descriptors.
+ * This is the list of pointers to the device's configuration descriptors.
  * The USB stack will read this array looking for descriptors which are
- * requsted from the host.  USB_CONFIG_DESCRIPTOR_MAP must be defined to the
+ * requested from the host.  USB_CONFIG_DESCRIPTOR_MAP must be defined to the
  * name of this array in usb_config.h.  See USB_CONFIG_DESCRIPTOR_MAP in
  * usb.h for information about this array.  The order of the descriptors is
  * not important, as the USB stack reads bConfigurationValue for each

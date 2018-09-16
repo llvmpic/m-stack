@@ -211,7 +211,7 @@ void hardware_init(void)
 	while (pll_startup--)
 		;
 #elif _16F1459 || _16F1454
-	OSCCONbits.IRCF = 0b1111; /* 0b1111 = 16MHz HFINTOSC postscalar */
+	OSCCONbits.IRCF = 0b1111; /* 0b1111 = 16MHz HFINTOSC postscaler */
 
 	/* Enable Active clock-tuning from the USB */
 	ACTCONbits.ACTSRC = 1; /* 1=USB */

@@ -104,7 +104,7 @@ extern const struct device_descriptor USB_DEVICE_DESCRIPTOR;
  * used by the USB stack to determine the number of bytes to use (It is
  * recommended to use the sizeof() operator for this field).
  *
- * See the example programs that come with the USB stack (specificallyl
+ * See the example programs that come with the USB stack (specifically
  * usb_descriptors.c) for a simple example of what is required.
  */
 extern const struct configuration_descriptor *USB_CONFIG_DESCRIPTOR_MAP[];
@@ -201,7 +201,7 @@ int8_t SET_INTERFACE_CALLBACK(uint8_t interface, uint8_t alt_setting);
  * function.  If this callback is not present, zero will be returned as the
  * current alternate setting for all interfaces.
  *
- * @param interface   The interface queried for current altertate setting
+ * @param interface   The interface queried for current alternate setting
  * @returns
  *   Return the current alternate setting for the interface requested or -1
  *   if the interface does not exist.
@@ -344,7 +344,7 @@ void USB_RESET_CALLBACK(void);
  *
  * Call this function at the beginning of execution. This function initializes
  * the USB peripheral hardware and software library. After calling this
- * funciton, the library will handle enumeration automatically when attached
+ * function, the library will handle enumeration automatically when attached
  * to a host.
  */
 void usb_init(void);
@@ -448,7 +448,7 @@ uint8_t usb_halt_ep_in(uint8_t ep);
  *
  * @param endpoint   The endpoint requested
  * @returns
- *   Return true if the endpointed is halted, or false if it is not.
+ *   Return true if the endpoint is halted, or false if it is not.
  */
 bool usb_in_endpoint_halted(uint8_t endpoint);
 
@@ -499,7 +499,7 @@ uint8_t usb_halt_ep_out(uint8_t ep);
  *
  * @param endpoint   The endpoint requested
  * @returns
- *   Return true if the endpointed is halted, or false if it is not.
+ *   Return true if the endpoint is halted, or false if it is not.
  */
 bool usb_out_endpoint_halted(uint8_t endpoint);
 
@@ -615,4 +615,3 @@ void usb_send_data_stage(char *buffer, size_t len,
 /** @}*/
 
 #endif /* USB_H_ */
-

@@ -557,7 +557,7 @@ static void init_endpoints(void)
 
 /* usb_init() is called at powerup time, and when the device gets
    the reset signal from the USB bus (D+ and D- both held low) indicated
-   by interrput bit URSTIF. */
+   by interrupt bit URSTIF. */
 void usb_init(void)
 {
 	uint8_t i;
@@ -1261,7 +1261,7 @@ handle_unknown:
 out:
 	/* SETUP packet sets PKTDIS which disables
 	 * future SETUP packet reception. Turn it off
-	 * afer we've processed the current SETUP
+	 * after we've processed the current SETUP
 	 * packet to avoid a race condition. */
 	SFR_USB_PKT_DIS = 0;
 }
@@ -1733,7 +1733,7 @@ void __attribute__((vector(_USB_1_VECTOR), interrupt(), nomips16)) _USB1Interrup
 
 #elif __C18
 #elif __XC8
-	/* On these systems, interupt handlers are shared. An interrupt
+	/* On these systems, interrupt handlers are shared. An interrupt
 	 * handler from the application must call usb_service(). */
 #else
 #error Compiler not supported yet
