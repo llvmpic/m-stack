@@ -1031,9 +1031,9 @@ static inline int8_t handle_standard_control_request()
 		 * wIndex is the interface.
 		 * wValue is the alternate setting. */
 #ifdef SET_INTERFACE_CALLBACK
-		int8_t res;
-		res = SET_INTERFACE_CALLBACK(setup->wIndex, setup->wValue);
-		if (res < 0) {
+		int8_t ret;
+		ret = SET_INTERFACE_CALLBACK(setup->wIndex, setup->wValue);
+		if (ret < 0) {
 			stall_ep0();
 		}
 		else
