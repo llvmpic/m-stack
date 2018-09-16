@@ -176,9 +176,9 @@ void interrupt isr()
 #elif _PIC18
 
 #ifdef __XC8
-void interrupt high_priority isr()
+void __interrupt(high_priority) isr()
 {
-	usb_service();
+    usb_service();
 }
 #elif _PICC18
 #error need to make ISR

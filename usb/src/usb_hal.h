@@ -158,9 +158,9 @@ struct buffer_descriptor {
 #if defined __XC8
 	#define memcpy_from_rom(x,y,z) memcpy(x,y,z)
 	#define FAR
-	#define BD_ATTR_TAG @##BD_ADDR
+	#define BD_ATTR_TAG __at(BD_ADDR)
 	#ifdef BUFFER_ADDR
-		#define XC8_BUFFER_ADDR_TAG @##BUFFER_ADDR
+		#define XC8_BUFFER_ADDR_TAG __at(BUFFER_ADDR)
 	#else
 		#define XC8_BUFFER_ADDR_TAG
 	#endif
@@ -316,9 +316,9 @@ struct buffer_descriptor {
 #elif defined __XC8
 	#define memcpy_from_rom(x,y,z) memcpy(x,y,z)
 	#define FAR
-	#define BD_ATTR_TAG @##BD_ADDR
+	#define BD_ATTR_TAG __at(BD_ADDR)
 	#ifdef BUFFER_ADDR
-		#define XC8_BUFFER_ADDR_TAG @##BUFFER_ADDR
+		#define XC8_BUFFER_ADDR_TAG __at(BUFFER_ADDR)
 	#else
 		#define XC8_BUFFER_ADDR_TAG
 	#endif

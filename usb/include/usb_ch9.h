@@ -162,7 +162,7 @@ enum EndpointAttributes {
  * The contents of the packet sent from the host during the SETUP stage of
  * every control transfer
  */
-struct setup_packet {
+struct __attribute__ ((packed)) setup_packet {
 	union {
 		struct {
 			uint8_t destination : 5; /**< @see enum DestinationType */
@@ -178,7 +178,7 @@ struct setup_packet {
 };
 
 /** Device Descriptor */
-struct device_descriptor {
+struct __attribute__ ((packed)) device_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< set to DESC_DEVICE */
 	uint16_t bcdUSB; /**< Set to 0x0200 for USB 2.0 */
@@ -196,7 +196,7 @@ struct device_descriptor {
 };
 
 /** Configuration Descriptor */
-struct configuration_descriptor {
+struct __attribute__ ((packed)) configuration_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_CONFIGURATION */
 	uint16_t wTotalLength;
@@ -208,7 +208,7 @@ struct configuration_descriptor {
 };
 
 /** Interface Descriptor */
-struct interface_descriptor {
+struct __attribute__ ((packed)) interface_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_INTERFACE */
 	uint8_t bInterfaceNumber;
@@ -221,7 +221,7 @@ struct interface_descriptor {
 };
 
 /** Endpoint Descriptor */
-struct endpoint_descriptor {
+struct __attribute__ ((packed)) endpoint_descriptor {
 	// ...
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_ENDPOINT */
@@ -232,7 +232,7 @@ struct endpoint_descriptor {
 };
 
 /** String Descriptor */
-struct string_descriptor {
+struct __attribute__ ((packed)) string_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_STRING */
 	uint16_t chars[];
@@ -243,7 +243,7 @@ struct string_descriptor {
  * See the Interface Association Descriptors Engineering Change Note (ECN)
  * available from www.usb.org .
  */
-struct interface_association_descriptor {
+struct __attribute__ ((packed)) interface_association_descriptor {
 	uint8_t bLength;         /**< Set to 8 bytes */
 	uint8_t bDescriptorType; /**< Set to DESC_INTERFACE_ASSOCIATION = 0xB */
 	uint8_t bFirstInterface;
