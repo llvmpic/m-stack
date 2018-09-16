@@ -25,7 +25,7 @@
  */
 
 #ifndef USB_HAL_H__
-#define UAB_HAL_H__
+#define USB_HAL_H__
 
 #ifdef _PIC14E
 #define NEEDS_PULL /* Whether to pull up D+/D- with SFR_PULL_EN. */
