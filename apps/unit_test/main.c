@@ -169,7 +169,7 @@ void app_usb_reset_callback(void)
 }
 
 #ifdef _PIC14E
-void interrupt isr()
+void __interrupt(high_priority) isr()
 {
 	usb_service();
 }
