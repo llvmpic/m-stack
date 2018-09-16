@@ -170,7 +170,9 @@ struct buffer_descriptor {
 
 #define NEEDS_PULL /* Whether to pull up D+/D- with SFR_PULL_EN. */
 #define HAS_LOW_SPEED
-#define HAS_ON_CHIP_XCVR_DIS
+#ifndef _18F14K50
+    #define HAS_ON_CHIP_XCVR_DIS
+#endif
 #define NEEDS_CLEAR_STALL
 
 #define BDNADR_TYPE              uint16_t
@@ -212,7 +214,13 @@ struct buffer_descriptor {
 #define SFR_USB_PING_PONG_RESET  UCONbits.PPBRST
 
 #define SFR_USB_STATUS           USTAT
-#define SFR_USB_STATUS_EP        USTATbits.ENDP
+#ifdef _18F14K50
+    /* Microchip's include for this chip does not define USTAT.ENDP,
+     * assume there's a good reason. */
+    #define SFR_USB_STATUS_EP        ((USTAT >> 3) & 0b111)
+#else
+    #define SFR_USB_STATUS_EP        USTATbits.ENDP
+#endif
 #define SFR_USB_STATUS_DIR       USTATbits.DIR
 #define SFR_USB_STATUS_PPBI      USTATbits.PPBI
 
@@ -288,6 +296,8 @@ struct buffer_descriptor {
 #ifdef _18F46J50
 #define BD_ADDR 0x400
 //#undef BUFFER_ADDR
+#elif _18F14K50
+#define BD_ADDR 0x200
 #else
 #error "CPU not supported yet"
 #endif
