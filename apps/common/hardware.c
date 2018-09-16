@@ -93,7 +93,7 @@ _CONFIG3(WPFP_WPFP255 & SOSCSEL_SOSC & WUTSEL_LEG & ALTPMP_ALPMPDIS & WPDIS_WPDI
 #pragma config EBTR1 = OFF      // Table Read Protection bit (Block 1 not protected from table reads executed in other blocks)
 #pragma config EBTRB = OFF      // Boot Block Table Read Protection bit (Boot block not protected from table reads executed in other blocks)
 
-#elif _16F1459 || _16F1454
+#elif _16F1459 || _16F1454 || _16F1455
 #pragma config FOSC = INTOSC
 #pragma config WDTE = OFF
 #pragma config PWRTE = OFF
@@ -256,7 +256,7 @@ void hardware_init(void)
 		;
 #elif _18F14K50
 
-#elif _16F1459 || _16F1454
+#elif _16F1459 || _16F1454 || _16F1455
 	OSCCONbits.IRCF = 0b1111; /* 0b1111 = 16MHz HFINTOSC postscaler */
 
 	/* Enable Active clock-tuning from the USB */
