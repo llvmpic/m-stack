@@ -1430,9 +1430,6 @@ void usb_service(void)
 #else
 	if (SFR_USB_TOKEN_IF) {
 #endif
-
-		//struct ustat_bits ustat = *((struct ustat_bits*)&USTAT);
-
 		if (SFR_USB_STATUS_EP == 0 && SFR_USB_STATUS_DIR == 0/*OUT*/) {
 			/* An OUT or SETUP transaction has completed on
 			 * Endpoint 0.  Handle the data that was received.

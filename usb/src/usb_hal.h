@@ -200,7 +200,7 @@ struct buffer_descriptor {
 #define SFR_USB_EXTENDED_INTERRUPT_EN UEIE
 
 #define SFR_EP_MGMT_TYPE         UEP1bits_t /* TODO test */
-#define UEP_REG_STRIDE 1
+#define UEP_REG_STRIDE           1
 #define SFR_EP_MGMT(ep)          ((SFR_EP_MGMT_TYPE*) (&UEP0 + UEP_REG_STRIDE * (ep)))
 #define SFR_EP_MGMT_HANDSHAKE    EPHSHK
 #define SFR_EP_MGMT_STALL        EPSTALL
@@ -215,9 +215,15 @@ struct buffer_descriptor {
 
 #define SFR_USB_STATUS           USTAT
 #ifdef _18F14K50
-    /* Microchip's include for this chip does not define USTAT.ENDP,
-     * assume there's a good reason. */
-    #define SFR_USB_STATUS_EP        ((USTAT >> 3) & 0b111)
+    /* Microchip's include for this chip does not define USTAT.ENDP. */
+    typedef union {
+        uint8_t USTATbits;
+        struct {
+            unsigned            :3;
+            unsigned ENDP       :4;
+        };
+    } USTATbits_ENDP_t;
+    #define SFR_USB_STATUS_EP        ((USTATbits_ENDP_t)USTAT).ENDP
 #else
     #define SFR_USB_STATUS_EP        USTATbits.ENDP
 #endif
