@@ -297,7 +297,9 @@ struct buffer_descriptor {
 #define BD_ADDR 0x400
 //#undef BUFFER_ADDR
 #elif _18F14K50
-#define BD_ADDR 0x200
+    #define BD_ADDR 0x200
+    #define BUFFER_ADDR 0x280 /* Allow for maximum Buffer Descriptors
+                                 See PIC18F1XK50 datasheet section 22.4 */
 #else
 #error "CPU not supported yet"
 #endif
