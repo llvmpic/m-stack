@@ -38,9 +38,8 @@
 
 #include <stdint.h>
 
-#if defined(__XC16__) || defined(__XC32__)
+#if __XC8 || defined(__XC16__) || defined(__XC32__)
 #pragma pack(push, 1)
-#elif __XC8
 #else
 #error "Compiler not supported"
 #endif
@@ -171,9 +170,8 @@ uint16_t MICROSOFT_CUSTOM_PROPERTY_DESCRIPTOR_FUNC(uint8_t interface,
 /* Doxygen end-of-group for microsoft_items */
 /** @}*/
 
-#if defined(__XC16__) || defined(__XC32__)
+#if __XC8 || defined(__XC16__) || defined(__XC32__)
 #pragma pack(pop)
-#elif __XC8
 #else
 #error "Compiler not supported"
 #endif

@@ -38,9 +38,8 @@
 
 #include <stdint.h>
 
-#if defined(__XC16__) || defined(__XC32__)
+#if __XC8 || defined(__XC16__) || defined(__XC32__)
 #pragma pack(push, 1)
-#elif __XC8
 #else
 #error "Compiler not supported"
 #endif
@@ -162,7 +161,7 @@ enum EndpointAttributes {
  * The contents of the packet sent from the host during the SETUP stage of
  * every control transfer
  */
-struct __attribute__ ((packed)) setup_packet {
+struct setup_packet {
 	union {
 		struct {
 			uint8_t destination : 5; /**< @see enum DestinationType */
@@ -178,7 +177,7 @@ struct __attribute__ ((packed)) setup_packet {
 };
 
 /** Device Descriptor */
-struct __attribute__ ((packed)) device_descriptor {
+struct device_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< set to DESC_DEVICE */
 	uint16_t bcdUSB; /**< Set to 0x0200 for USB 2.0 */
@@ -196,7 +195,7 @@ struct __attribute__ ((packed)) device_descriptor {
 };
 
 /** Configuration Descriptor */
-struct __attribute__ ((packed)) configuration_descriptor {
+struct configuration_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_CONFIGURATION */
 	uint16_t wTotalLength;
@@ -208,7 +207,7 @@ struct __attribute__ ((packed)) configuration_descriptor {
 };
 
 /** Interface Descriptor */
-struct __attribute__ ((packed)) interface_descriptor {
+struct interface_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_INTERFACE */
 	uint8_t bInterfaceNumber;
@@ -221,7 +220,7 @@ struct __attribute__ ((packed)) interface_descriptor {
 };
 
 /** Endpoint Descriptor */
-struct __attribute__ ((packed)) endpoint_descriptor {
+struct endpoint_descriptor {
 	// ...
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_ENDPOINT */
@@ -232,7 +231,7 @@ struct __attribute__ ((packed)) endpoint_descriptor {
 };
 
 /** String Descriptor */
-struct __attribute__ ((packed)) string_descriptor {
+struct string_descriptor {
 	uint8_t bLength;
 	uint8_t bDescriptorType; /**< Set to DESC_STRING */
 	uint16_t chars[];
@@ -243,7 +242,7 @@ struct __attribute__ ((packed)) string_descriptor {
  * See the Interface Association Descriptors Engineering Change Note (ECN)
  * available from www.usb.org .
  */
-struct __attribute__ ((packed)) interface_association_descriptor {
+struct interface_association_descriptor {
 	uint8_t bLength;         /**< Set to 8 bytes */
 	uint8_t bDescriptorType; /**< Set to DESC_INTERFACE_ASSOCIATION = 0xB */
 	uint8_t bFirstInterface;
@@ -273,9 +272,8 @@ struct __attribute__ ((packed)) interface_association_descriptor {
 /** @endcond */
 
 
-#if defined(__XC16__) || defined(__XC32__)
+#if __XC8 || defined(__XC16__) || defined(__XC32__)
 #pragma pack(pop)
-#elif __XC8
 #else
 #error "Compiler not supported"
 #endif
