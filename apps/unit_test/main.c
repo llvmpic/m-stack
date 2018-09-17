@@ -97,7 +97,7 @@ void app_in_transaction_complete_callback(uint8_t endpoint)
 
 }
 
-static char buf[512];
+static char buf[256];
 
 static int8_t data_cb(bool transfer_ok, void *context)
 {
