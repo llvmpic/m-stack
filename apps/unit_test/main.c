@@ -67,6 +67,7 @@ void app_set_configuration_callback(uint8_t configuration)
 {
 
 }
+
 uint16_t app_get_device_status_callback()
 {
 	return 0x0000;
@@ -108,8 +109,6 @@ static int8_t data_cb(bool transfer_ok, void *context)
 
 int8_t app_unknown_setup_request_callback(const struct setup_packet *setup)
 {
-#define MIN(X,Y) ((X)<(Y)?(X):(Y))
-
 	/* This handler handles request 254/dest=other/type=vendor only.*/
 	if (setup->bRequest != 245 ||
 	    setup->REQUEST.destination != 3 /*other*/ ||
@@ -130,7 +129,7 @@ int8_t app_unknown_setup_request_callback(const struct setup_packet *setup)
 			   refuse this transfer*/
 			return -1;
 		}
-		usb_start_receive_ep0_data_stage(buf, setup->wLength, &data_cb, NULL);
+		usb_start_receive_ep0_data_stage(buf, setup->wLength, data_cb, NULL);
 	}
 	else {
 		/* Direction is 1 (IN) */
@@ -150,7 +149,6 @@ int8_t app_unknown_setup_request_callback(const struct setup_packet *setup)
 	}
 
 	return 0; /* 0 = can handle this request. */
-#undef MIN
 }
 
 int16_t app_unknown_get_descriptor_callback(const struct setup_packet *pkt, const void **descriptor)

@@ -582,7 +582,7 @@ void usb_init(void)
 	SFR_OTGEN = 1;
 #endif
 
-	
+
 #ifdef NEEDS_PULL
 	SFR_PULL_EN = 1;  /* pull-up enable */
 #endif
@@ -1423,7 +1423,6 @@ void usb_service(void)
 
 		CLEAR_USB_STALL_IF();
 	}
-
 
 #ifdef USB_USE_INTERRUPTS
 	if (SFR_USB_TOKEN_IF && SFR_TRANSFER_IE) {
