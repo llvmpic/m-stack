@@ -25,7 +25,7 @@
  */
 
 #ifndef USB_HAL_H__
-#define UAB_HAL_H__
+#define USB_HAL_H__
 
 #ifdef _PIC14E
 #define NEEDS_PULL /* Whether to pull up D+/D- with SFR_PULL_EN. */
@@ -291,6 +291,9 @@ struct buffer_descriptor {
 #elif (defined(_18F25K50) || defined(_18F45K50))
 #define BD_ADDR 0x400
 #define BUFFER_ADDR 0x500
+#elif (defined(_18F2455))
+#define BD_ADDR 0x400
+#define BUFFER_ADDR 0x500
 #else
 #error "CPU not supported yet"
 #endif
@@ -309,9 +312,17 @@ struct buffer_descriptor {
 #elif defined __XC8
 	#define memcpy_from_rom(x,y,z) memcpy(x,y,z)
 	#define FAR
-	#define BD_ATTR_TAG @##BD_ADDR
+
+	#if __XC8_VERSION >= 2000
+	  // XC8 discontinued the @addr notation and replaced it with __at()
+	  #define AT_ADDR(X) __at(X)
+	#else
+	  #define AT_ADDR(X) @X
+	#endif
+	#define BD_ATTR_TAG AT_ADDR(BD_ADDR)
+
 	#ifdef BUFFER_ADDR
-		#define XC8_BUFFER_ADDR_TAG @##BUFFER_ADDR
+		#define XC8_BUFFER_ADDR_TAG AT_ADDR(BUFFER_ADDR)
 	#else
 		#define XC8_BUFFER_ADDR_TAG
 	#endif

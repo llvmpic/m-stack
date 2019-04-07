@@ -42,6 +42,10 @@
 #if defined(__XC16__) || defined(__XC32__)
 #pragma pack(push, 1)
 #elif __XC8
+	#if __XC8_VERSION >= 2000
+		// This is needed, even though the XC8 manual says its unnecessary
+		#pragma pack(push, 1)
+	#endif
 #else
 #error "Compiler not supported"
 #endif
@@ -202,7 +206,7 @@ extern int16_t HID_GET_REPORT_CALLBACK(uint8_t interface, uint8_t report_type,
  * The USB Stack will call this function when a Set_Report request has been
  * received from the host. There are two ways to handle this:
  *
- * 0. For unknown requests, return -1. This will send a STALL to the host. 
+ * 0. For unknown requests, return -1. This will send a STALL to the host.
  * 1. For known requests the callback should call
  *    @p usb_start_receive_ep0_data_stage() with a buffer to be filled with
  *    the report data and a callback which will get called when the data
