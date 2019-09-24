@@ -307,6 +307,10 @@ struct buffer_descriptor {
     #define BUFFER_ADDR 0x280 /* Allow for maximum Buffer Descriptors
                                  See PIC18F1XK50 datasheet section 22.4 */
 #else
+#elif defined _18F2550
+#define BD_ADDR 0x400
+#define BUFFER_ADDR 0x500
+#else
 #error "CPU not supported yet"
 #endif
 
@@ -324,9 +328,16 @@ struct buffer_descriptor {
 #elif defined __XC8
 	#define memcpy_from_rom(x,y,z) memcpy(x,y,z)
 	#define FAR
-	#define BD_ATTR_TAG __at(BD_ADDR)
+	#if __XC8_VERSION >= 2000
+		#define AT_ADDR(x) __at(x)
+	#else
+		#define AT_ADDR(x) @x
+	#endif
+
+	#define BD_ATTR_TAG AT_ADDR(BD_ADDR)
+	
 	#ifdef BUFFER_ADDR
-		#define XC8_BUFFER_ADDR_TAG __at(BUFFER_ADDR)
+		#define XC8_BUFFER_ADDR_TAG AT_ADDR(BUFFER_ADDR)
 	#else
 		#define XC8_BUFFER_ADDR_TAG
 	#endif
