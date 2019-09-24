@@ -246,7 +246,7 @@ int8_t app_set_protocol_callback(uint8_t interface, uint8_t report_id)
 
 
 #ifdef _PIC14E
-void interrupt isr()
+void __interrupt() isr()
 {
 	usb_service();
 }
