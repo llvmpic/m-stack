@@ -306,7 +306,6 @@ struct buffer_descriptor {
     #define BD_ADDR 0x200
     #define BUFFER_ADDR 0x280 /* Allow for maximum Buffer Descriptors
                                  See PIC18F1XK50 datasheet section 22.4 */
-#else
 #elif defined _18F2550
 #define BD_ADDR 0x400
 #define BUFFER_ADDR 0x500
