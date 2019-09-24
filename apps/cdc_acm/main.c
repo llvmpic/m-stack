@@ -92,7 +92,7 @@ int main(void)
 				goto empty;
 
 			if (send) {
-				/* Stop sendng if a key was hit. */
+				/* Stop sending if a key was hit. */
 				send = false;
 				send_string_sync(2, "Data send off ('h' for help)\r\n");
 			}
@@ -337,10 +337,18 @@ int8_t app_send_break_callback(uint8_t interface, uint16_t duration)
 
 
 #ifdef _PIC14E
+
+#ifdef __XC8
+void __interrupt(high_priority) isr(void)
+{
+	usb_service();
+}
+#else
 void interrupt isr()
 {
 	usb_service();
 }
+#endif // __XC8
 #elif _PIC18
 
 #ifdef __XC8
