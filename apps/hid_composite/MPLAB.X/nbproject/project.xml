@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://www.netbeans.org/ns/project/1">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
@@ -11,6 +12,49 @@
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <asminc-extensions/>
             <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>../../bootloader/firmware/gld</sourceRootElem>
+                <sourceRootElem>../../../usb/src</sourceRootElem>
+                <sourceRootElem>../../../usb/include</sourceRootElem>
+                <sourceRootElem>../../common</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>PIC24FJ64GB002</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC24FJ64GB002-bootloader</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC24FJ256DA206</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC24FJ256DA206-bootloader</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC18_Starter_Kit_PIC18F46J50</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC16F1459</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC16F1454</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC32_USB_Starter_Board_PIC32MX460F512L</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
         </data>
     </configuration>
 </project>
