@@ -1510,7 +1510,7 @@ void usb_service(void)
 	}
 }
 
-uint8_t usb_get_configuration(void)
+inline uint8_t usb_get_configuration(void)
 {
 	return g_configuration;
 }

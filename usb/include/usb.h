@@ -372,7 +372,7 @@ void usb_service(void);
  * @returns
  *   Return the device configuration or 0 if the device is not configured.
  */
-uint8_t usb_get_configuration(void);
+inline uint8_t usb_get_configuration(void);
 
 /** @brief Determine whether the device is in the Configured state
  *
