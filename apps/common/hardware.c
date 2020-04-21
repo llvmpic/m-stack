@@ -112,9 +112,46 @@ _CONFIG3(WPFP_WPFP255 & SOSCSEL_SOSC & WUTSEL_LEG & ALTPMP_ALPMPDIS & WPDIS_WPDI
 #pragma config BWP = OFF                // Boot Flash Write Protect bit (Protection Disabled)
 #pragma config CP = OFF                 // Code Protect (Protection Disabled)
 
+#elif __32MM0064GPM036__
+
+// FDEVOPT
+#pragma config SOSCHP = OFF     //Secondary Oscillator High Power Enable bit->SOSC oprerates in normal power mode.
+#pragma config ALTI2C = OFF     //Alternate I2C1 Pins Location Enable bit->Primary I2C1 pins are used
+#pragma config FUSBIDIO = ON    //USBID pin control->USBID pin is controlled by the port function
+#pragma config FVBUSIO = OFF    //VBUS Pin Control->VBUS pin is controlled by the USB module
+
+// FICD
+#pragma config JTAGEN = OFF     //JTAG Enable bit->JTAG is disabled
+#pragma config ICS = PGx1       //ICE/ICD Communication Channel Selection bits->Communicate on PGEC1/PGED1
+
+// FPOR
+#pragma config BOREN = BOR3     //Brown-out Reset Enable bits->Brown-out Reset enabled in hardware; SBOREN bit disabled
+#pragma config RETVR = OFF      //Retention Voltage Regulator Enable bit->Retention regulator is disabled
+#pragma config LPBOREN = ON     //Downside Voltage Protection Enable bit->Low power BOR is enabled, when main BOR is disabled
+
+// FWDT
+#pragma config SWDTPS = PS1048576    //Sleep Mode Watchdog Timer Postscale Selection bits->1:1048576
+#pragma config FWDTWINSZ = PS25_0    //Watchdog Timer Window Size bits->Watchdog timer window size is 25%
+#pragma config WINDIS = OFF     //Windowed Watchdog Timer Disable bit->Watchdog timer is in non-window mode
+#pragma config RWDTPS = PS1048576    //Run Mode Watchdog Timer Postscale Selection bits->1:1048576
+#pragma config RCLKSEL = LPRC   //Run Mode Watchdog Timer Clock Source Selection bits->Clock source is LPRC (same as for sleep mode)
+#pragma config FWDTEN = OFF     //Watchdog Timer Enable bit->WDT is disabled
+
+// FOSCSEL
+#pragma config FNOSC = FRCDIV    //Oscillator Selection bits->FRCDIV
+#pragma config PLLSRC = FRC     //System PLL Input Clock Selection bit->FRC oscillator is selected as PLL reference input on device reset
+#pragma config SOSCEN = OFF     //Secondary Oscillator Enable bit->Secondary oscillator is disabled
+#pragma config IESO = ON        //Two Speed Startup Enable bit->Two speed startup is enabled
+#pragma config POSCMOD = OFF    //Primary Oscillator Selection bit->Primary oscillator is disabled
+#pragma config OSCIOFNC = OFF   //System Clock on CLKO Pin Enable bit->OSCO pin operates as a normal I/O
+#pragma config SOSCSEL = ON     //Secondary Oscillator External Clock Enable bit->SCLKI pin configured for Digital mode
+#pragma config FCKSM = CSECMD   //Clock Switching and Fail-Safe Clock Monitor Enable bits->Clock switching is enabled; Fail-safe clock monitor is disabled
+
+// FSEC
+#pragma config CP = OFF         //Code Protection Enable bit->Code protection is disabled
+
 #else
 	#error "Config flags for your device not defined"
-
 #endif
 
 
@@ -199,8 +236,45 @@ static void system_config_performance(uint32_t cpu_speed)
 #endif /* __PIC32MX */
 
 
-void hardware_init(void)
+#ifdef __PIC32MM__
+
+inline static void RegLock(void) {
+    SYSKEY = 0x00000000; 
+}
+
+inline static void RegUnlock(void) {
+    RegLock();           // force lock
+    SYSKEY = 0xAA996655; // write Key1 to SYSKEY
+    SYSKEY = 0x556699AA; // write Key2 to SYSKEY
+}
+
+static void system_config_clock()
 {
+
+    RegUnlock();
+    // ORPOL disabled; SIDL disabled; SRC USB; TUN Center frequency; POL disabled; ON enabled; 
+    OSCTUN = 0x9000;
+    // PLLODIV 1:4; PLLMULT 12x; PLLICLK FRC; 
+    SPLLCON = 0x2050080;
+    // SBOREN disabled; VREGS disabled; RETEN disabled; 
+    PWRCON = 0x00;
+    // CF No Clock Failure; FRCDIV FRC/1; SLPEN Device will enter Idle mode when a WAIT instruction is issued; NOSC SPLL; SOSCEN disabled; CLKLOCK Clock and PLL selections are not locked and may be modified; OSWEN Switch is Complete; 
+    OSCCON = (0x100 | _OSCCON_OSWEN_MASK);
+    RegLock();
+    // Wait for Clock switch to occur 
+    while(OSCCONbits.OSWEN == 1); 
+    while(CLKSTATbits.SPLLRDY != 1);
+    // ON disabled; DIVSWEN disabled; RSLP disabled; ROSEL SYSCLK; OE disabled; SIDL disabled; RODIV 0; 
+    REFO1CON = 0x00;
+    // ROTRIM 0; 
+    REFO1TRIM = 0x00;
+}
+#endif /* __PIC32MM */
+
+
+
+void hardware_init(void) {
+    
 #if defined(__PIC24FJ64GB002__) || defined(__PIC24FJ32GB002__) || defined(__PIC24FJ256DA206__)
 	unsigned int pll_startup_counter = 600;
 	CLKDIVbits.PLLEN = 1;
@@ -220,6 +294,70 @@ void hardware_init(void)
 	system_config_performance(80000000);
 #elif __32MX795F512L__
 	system_config_performance(60000000);
+#elif __32MM0064GPM036__
+    system_config_clock();
+    /****************************************************************************
+     * Setting the Output Latch SFR(s)
+     ***************************************************************************/
+    LATA = 0x0000;
+    LATB = 0x0000;
+    LATC = 0x0000;
+
+    /****************************************************************************
+     * Setting the GPIO Direction SFR(s)
+     ***************************************************************************/
+    TRISA = 0x0217;
+    TRISB = 0xEFFF;
+    TRISC = 0x030F;
+
+    /****************************************************************************
+     * Setting the Weak Pull Up and Weak Pull Down SFR(s)
+     ***************************************************************************/
+    CNPDA = 0x0000;
+    CNPDB = 0x0000;
+    CNPDC = 0x0000;
+    CNPUA = 0x0000;
+    CNPUB = 0x0000;
+    CNPUC = 0x0000;
+
+    /****************************************************************************
+     * Setting the Open Drain SFR(s)
+     ***************************************************************************/
+    ODCA = 0x0000;
+    ODCB = 0x0000;
+    ODCC = 0x0000;
+
+    /****************************************************************************
+     * Setting the Analog/Digital Configuration SFR(s)
+     ***************************************************************************/
+    ANSELA = 0x0006;
+    ANSELB = 0x201C;
+    ANSELC = 0x0103;
+    
+    
+    // Enable Multi Vector Configuration
+    INTCONbits.MVEC = 1;
+    
+    //    INT0I: External 0
+    //    Priority: 1
+        IPC0bits.INT0IP = 1;
+    //    Sub Priority: 0
+        IPC0bits.INT0IS = 0;
+    //    INT3I: External 3
+    //    Priority: 1
+        IPC1bits.INT3IP = 1;
+    //    Sub Priority: 0
+        IPC1bits.INT3IS = 0;
+    //    INT1I: External 1
+    //    Priority: 1
+        IPC1bits.INT1IP = 1;
+    //    Sub Priority: 0
+        IPC1bits.INT1IS = 0;
+    //    INT2I: External 2
+    //    Priority: 1
+        IPC1bits.INT2IP = 1;
+    //    Sub Priority: 0
+        IPC1bits.INT2IS = 0;
 #else
 	#error "Add configuration for your processor here"
 #endif
