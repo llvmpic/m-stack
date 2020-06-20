@@ -1720,6 +1720,16 @@ void _ISR __attribute((auto_psv)) _USB1Interrupt()
 	usb_service();
 }
 
+#elif __PIC32MM__
+
+/* No parameter for interrupt() means to use IPL=RIPL and to detect whether
+   to use shadow registers or not. This is the safest option, but if a user
+   wanted maximum performance, they could use IPL7SRS and set the USBIP to 7.
+   IPL 7 is the only time the shadow register set can be used on PIC32MX. */
+void __attribute__((vector(_USB_VECTOR), interrupt(), nomips16)) _USB1Interrupt()
+{
+	usb_service();
+}
 #elif __XC32__
 
 /* No parameter for interrupt() means to use IPL=RIPL and to detect whether

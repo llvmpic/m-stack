@@ -52,6 +52,9 @@
 #ifdef __PIC32MX__
 	/* PIC32MX only supports PPB_ALL */
 	#define PPB_MODE PPB_ALL
+#elif __PIC32MM__
+	/* PIC32MM only supports PPB_ALL */
+	#define PPB_MODE PPB_ALL
 #else
 	#define PPB_MODE PPB_NONE
 #endif
@@ -59,7 +62,7 @@
 /* Comment the following line to use polling USB operation. When using polling,
    You are responsible for calling usb_service() periodically from your
    application. */
-#define USB_USE_INTERRUPTS
+//#define USB_USE_INTERRUPTS
 
 /* Uncomment if you have a composite device which has multiple different types
  * of device classes. For example a device which has HID+CDC or
