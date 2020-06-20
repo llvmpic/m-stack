@@ -485,8 +485,13 @@ static void reset_ep0_data_stage()
 	 */
 }
 
+#ifndef SERIAL
 #define SERIAL(x)
+#endif // SERIAL
+
+#ifndef SERIAL_VAL
 #define SERIAL_VAL(x)
+#endif // SERIAL_VAL
 
 /* Initialize or reset all of the endpoints. This is done:
  *   1. at startup,
