@@ -25,7 +25,7 @@
  */
 
 #ifndef USB_HAL_H__
-#define UAB_HAL_H__
+#define USB_HAL_H__
 
 #ifdef _PIC14E
 #define NEEDS_PULL /* Whether to pull up D+/D- with SFR_PULL_EN. */
@@ -143,7 +143,7 @@ struct buffer_descriptor {
 #define BDN_LENGTH(REG) (REG.BDnCNT)
 #endif
 
-#if defined(_16F1459) || defined(_16F1454)
+#if defined(_16F1459) || defined(_16F1454) || defined(_16F1455)
 #define BD_ADDR 0x2000
 #define BUFFER_ADDR 0x2080
 #else
@@ -158,9 +158,9 @@ struct buffer_descriptor {
 #if defined __XC8
 	#define memcpy_from_rom(x,y,z) memcpy(x,y,z)
 	#define FAR
-	#define BD_ATTR_TAG @##BD_ADDR
+	#define BD_ATTR_TAG __at(BD_ADDR)
 	#ifdef BUFFER_ADDR
-		#define XC8_BUFFER_ADDR_TAG @##BUFFER_ADDR
+		#define XC8_BUFFER_ADDR_TAG __at(BUFFER_ADDR)
 	#else
 		#define XC8_BUFFER_ADDR_TAG
 	#endif
